@@ -51,4 +51,13 @@ class NovelController extends Controller
 
         return view('novels.detail', compact('book'));
     }
+
+    public function history()
+    {
+        $histories = SearchHistory::where('user_id', auth()->id())
+            ->latest()
+            ->get();
+
+        return view('history.index', compact('histories'));
+    }
 }

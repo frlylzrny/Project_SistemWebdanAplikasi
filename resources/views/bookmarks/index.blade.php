@@ -1,36 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bookmark Favorit</title>
+    <title>Riwayat Pencarian</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-light">
 
 <div class="container mt-5">
 
-    <h2>❤️ Buku Favorit Saya</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <a href="/search" class="btn btn-secondary mb-3">← Kembali</a>
+        <div>
+            <h2 class="fw-bold">
+                🔍 Riwayat Pencarian
+            </h2>
 
-    @foreach($bookmarks as $b)
+            <p class="text-muted">
+                Total Riwayat: {{ count($histories) }}
+            </p>
+        </div>
 
-        <div class="card mb-3 p-3">
+        <a href="{{ route('novels.search') }}"
+           class="btn btn-secondary">
+            ← Kembali
+        </a>
 
-            <h4>{{ $b->title }}</h4>
-            <p>{{ $b->author }}</p>
+    </div>
 
-            <form method="POST" action="{{ route('bookmark.destroy', $b->id) }}">
-                @csrf
-                @method('DELETE')
+    @if(count($histories) > 0)
 
-                <button class="btn btn-sm btn-danger">
-                    Hapus
-                </button>
-            </form>
+        <div class="card shadow">
+
+            <div class="list-group list-group-flush">
+
+                @foreach($histories as $history)
+
+                    <div class="list-group-item">
+
+                        <h5 class="mb-1">
+                            {{ $history->keyword }}
+                        </h5>
+
+                        <small class="text-muted">
+                            {{ $history->created_at }}
+                        </small>
+
+                    </div>
+
+                @endforeach
+
+            </div>
 
         </div>
 
-    @endforeach
+    @else
+
+        <div class="alert alert-info">
+
+            Belum ada riwayat pencarian.
+
+        </div>
+
+    @endif
 
 </div>
 
